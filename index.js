@@ -75,10 +75,44 @@ app.post('/api/signup', (req, res) => {
 
   // Send welcome email
   const welcomeMailOptions = {
-    from: `"Company Name" <exesoftware010@gmail.com>`, // Use company name as display name
+    from: {
+      name: "Coastal Debt",
+      address: 'exesoftware010@gmail.com'
+    },
     to: newUser.email,
-    subject: 'Welcome to Our Loan Application!',
-    text: `Dear ${newUser.username},\n\nWelcome to our loan application service!  We're excited to help you with your financial needs.\n\nSincerely,\nThe Company Name Team`
+    subject: 'Welcome to Coastal Debt',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+        <div style="text-align: center; padding: 20px 0;">
+          <img src="https://logo.clearbit.com/coastaldebt.com" alt="Coastal Debt Logo" style="max-width: 180px;">
+        </div>
+
+        <div style="padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+          <h2 style="color: #0066cc; margin-bottom: 20px;">Welcome to Coastal Debt</h2>
+
+          <p>Dear ${newUser.username},</p>
+
+          <p>Thank you for creating an account with Coastal Debt Loan Services. We're excited to help you with your financial needs.</p>
+
+          <p>You can now log in and explore our loan offerings.</p>
+
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="#" style="background-color: #0066cc; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Log In Now</a>
+          </div>
+
+          <p>If you have any questions, please don't hesitate to contact our support team.</p>
+
+          <p>
+            Best regards,<br>
+            The Coastal Debt Team
+          </p>
+        </div>
+
+        <div style="text-align: center; padding: 20px; color: #666; font-size: 12px;">
+          <p>&copy; ${new Date().getFullYear()} Coastal Debt. All rights reserved.</p>
+        </div>
+      </div>
+    `
   };
 
   transporter.sendMail(welcomeMailOptions, (error, info) => {
@@ -118,14 +152,55 @@ app.post('/api/loan-application', (req, res) => {
   loanApplications.push(newApplication);
 
   // Send loan application received email
-  const applicationReceivedMailOptions = {
-    from: `"Company Name" <exesoftware010@gmail.com>`,
+  const loanApplicationMailOptions = {
+    from: {
+      name: "Coastal Debt",
+      address: 'exesoftware010@gmail.com'
+    },
     to: users.find(u => u.id === userId).email,
-    subject: 'Loan Application Received',
-    text: `Dear ${users.find(u => u.id === userId).username},\n\nThank you for submitting your loan application. We've received it and will review it shortly.\n\nSincerely,\nThe Company Name Team`
+    subject: 'Loan Application Received - Coastal Debt',
+    html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+          <div style="text-align: center; padding: 20px 0;">
+            <img src="https://logo.clearbit.com/coastaldebt.com" alt="Coastal Debt Logo" style="max-width: 180px;">
+          </div>
+
+          <div style="padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <h2 style="color: #0066cc; margin-bottom: 20px;">Loan Application Received</h2>
+
+            <p>Dear ${users.find(u => u.id === userId).username},</p>
+
+            <p>We have received your loan application for <strong>$${loanAmount.toLocaleString()}</strong>.</p>
+
+            <p>Your application is now being processed. You can track the status of your application
+            by logging into your account.</p>
+
+            <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+              <p style="margin: 5px 0;"><strong>Application ID:</strong> ${newApplication.id}</p>
+              <p style="margin: 5px 0;"><strong>Amount:</strong> $${loanAmount.toLocaleString()}</p>
+              <p style="margin: 5px 0;"><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="#" style="background-color: #0066cc; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Check Application Status</a>
+            </div>
+
+            <p>Thank you for choosing Coastal Debt.</p>
+
+            <p>
+              Best regards,<br>
+              The Coastal Debt Team
+            </p>
+          </div>
+
+          <div style="text-align: center; padding: 20px; color: #666; font-size: 12px;">
+            <p>&copy; ${new Date().getFullYear()} Coastal Debt. All rights reserved.</p>
+          </div>
+        </div>
+      `
   };
 
-  transporter.sendMail(applicationReceivedMailOptions, (error, info) => {
+  transporter.sendMail(loanApplicationMailOptions, (error, info) => {
     if (error) {
       console.error('Error sending application received email:', error);
     }
@@ -337,28 +412,50 @@ app.get('/api/application-status/:applicationId', (req, res) => {
       const user = users.find(u => u.id === application.userId);
       if (user) {
         const mailOptions = {
-          from: `"Company Name" <exesoftware010@gmail.com>`,
+          from: {
+            name: "Coastal Debt",
+            address: 'exesoftware010@gmail.com'
+          },
           to: user.email,
-          subject: 'Funds Reimbursed - Loan Application Completed',
-          text: `
-            Dear ${user.username},
+          subject: 'Funds Reimbursed - Coastal Debt',
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+              <div style="text-align: center; padding: 20px 0;">
+                <img src="https://logo.clearbit.com/coastaldebt.com" alt="Coastal Debt Logo" style="max-width: 180px;">
+              </div>
 
-            Great news! Your loan application #${application.id} has been fully processed and approved.
+              <div style="padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <h2 style="color: #0066cc; margin-bottom: 20px;">Funds Reimbursed</h2>
 
-            Your funds of $${application.loanAmount.toLocaleString()} have been reimbursed to your ${application.paymentMethod?.method}.
+                <p>Dear ${user.username},</p>
 
-            Transaction Details:
-            - Application ID: ${application.id}
-            - Amount: $${application.loanAmount.toLocaleString()}
-            - Payment Method: ${application.paymentMethod?.method}
-            - Date: ${new Date().toLocaleDateString()}
+                <p>We are pleased to inform you that your loan has been fully processed and the funds have been released.</p>
 
-            If you have any questions or need further assistance, please don't hesitate to contact our support team.
+                <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                  <p style="margin: 5px 0;"><strong>Application ID:</strong> ${applicationId}</p>
+                  <p style="margin: 5px 0;"><strong>Amount:</strong> $${application.loanAmount.toLocaleString()}</p>
+                  <p style="margin: 5px 0;"><strong>Payment Method:</strong> ${application.paymentMethod?.method === 'check' ? 'Check' : 'Direct Deposit'}</p>
+                  <p style="margin: 5px 0;"><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
+                </div>
 
-            Thank you for choosing Company Name.
+                <p>Your funds have been reimbursed to your ${application.paymentMethod?.method === 'check' ? 'mailing address via check' : 'bank account via direct deposit'}.</p>
 
-            Best regards,
-            The Company Name Team
+                ${application.paymentMethod?.method === 'check' 
+                  ? '<p><strong>Note:</strong> Please allow 5-7 business days for delivery.</p>' 
+                  : '<p><strong>Note:</strong> Please allow 1-2 business days for the funds to appear in your account.</p>'}
+
+                <p>Thank you for choosing Coastal Debt.</p>
+
+                <p>
+                  Best regards,<br>
+                  The Coastal Debt Team
+                </p>
+              </div>
+
+              <div style="text-align: center; padding: 20px; color: #666; font-size: 12px;">
+                <p>&copy; ${new Date().getFullYear()} Coastal Debt. All rights reserved.</p>
+              </div>
+            </div>
           `
         };
 
@@ -377,28 +474,51 @@ app.get('/api/application-status/:applicationId', (req, res) => {
       const user = users.find(u => u.id === application.userId);
       if (user) {
         const mailOptions = {
-          from: `"Company Name" <exesoftware010@gmail.com>`,
+          from: {
+            name: "Coastal Debt",
+            address: 'exesoftware010@gmail.com'
+          },
           to: user.email,
-          subject: 'Loan Application Approved',
-          text: `
-            Dear ${user.username},
+          subject: 'Loan Approved - Coastal Debt',
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+              <div style="text-align: center; padding: 20px 0;">
+                <img src="https://logo.clearbit.com/coastaldebt.com" alt="Coastal Debt Logo" style="max-width: 180px;">
+              </div>
 
-            We are pleased to inform you that your loan application #${application.id} has been approved!
+              <div style="padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <h2 style="color: #0066cc; margin-bottom: 20px;">Loan Approved!</h2>
 
-            Application Details:
-            - Application ID: ${application.id}
-            - Amount Approved: $${application.loanAmount.toLocaleString()}
-            - Approval Date: ${new Date().toLocaleDateString()}
+                <p>Dear ${user.username},</p>
 
-            Next Steps:
-            Your funds will be reimbursed to your selected payment method within the next 24 hours.
+                <p>Great news! Your loan application has been approved.</p>
 
-            You can track the status of your reimbursement by logging into your account at any time.
+                <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                  <p style="margin: 5px 0;"><strong>Application ID:</strong> ${applicationId}</p>
+                  <p style="margin: 5px 0;"><strong>Amount Approved:</strong> $${application.loanAmount.toLocaleString()}</p>
+                  <p style="margin: 5px 0;"><strong>Approval Date:</strong> ${new Date().toLocaleDateString()}</p>
+                </div>
 
-            Thank you for choosing Company Name.
+                <p>You will receive your funds within 24 hours through your selected payment method.</p>
 
-            Best regards,
-            The Company Name Team
+                <p>You can track the status of your application by logging into your account.</p>
+
+                <div style="text-align: center; margin: 30px 0;">
+                  <a href="#" style="background-color: #0066cc; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Check Application Status</a>
+                </div>
+
+                <p>Thank you for choosing Coastal Debt.</p>
+
+                <p>
+                  Best regards,<br>
+                  The Coastal Debt Team
+                </p>
+              </div>
+
+              <div style="text-align: center; padding: 20px; color: #666; font-size: 12px;">
+                <p>&copy; ${new Date().getFullYear()} Coastal Debt. All rights reserved.</p>
+              </div>
+            </div>
           `
         };
 
